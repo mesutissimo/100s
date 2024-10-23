@@ -12,15 +12,39 @@ function App() {
           alignContent: "center",
           backgroundColor: "lightgreen",
           display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
         <h1>100s</h1>
-        <button onClick={openPropertiesPage}>=</button>
+        <button
+          style={{
+            width: 80,
+            alignSelf: "right",
+            textAlign: "center",
+            border: 0,
+          }}
+          onClick={openPropertiesPage}
+        >
+          <i
+            className="bi bi-three-dots-vertical"
+            style={{ fontSize: "2em" }}
+          ></i>
+        </button>
       </header>
 
       <ScoreComponent />
-
-      <Grid />
+      <div style={{ margin: 25, textAlign: "center" }}>
+        <Grid />
+      </div>
+      <div
+        style={{
+          margin: 25,
+          textAlign: "center",
+          fontFamily: "monospace",
+          fontSize: "2em",
+        }}
+      ></div>
     </div>
   );
 }

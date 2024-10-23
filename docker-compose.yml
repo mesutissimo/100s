@@ -1,0 +1,14 @@
+services:
+  manager:
+    build: .
+    container_name: 100s
+    ports:
+      - "8080:80"
+    networks:
+      - 100s
+networks:
+  100s:
+    # Specify driver options
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
