@@ -1,8 +1,10 @@
 import React from "react";
 import ScoreComponent from "../../components/Score";
 import Grid from "../../Grid";
+import { Link, useNavigate } from "react-router-dom";
 
 const GamePage = () => {
+  const navigate = useNavigate();
   return (
     <>
       <ScoreComponent />
@@ -16,7 +18,21 @@ const GamePage = () => {
           fontFamily: "monospace",
           fontSize: "2em",
         }}
-      ></div>
+      >
+        <button
+          onClick={() => navigate(0)}
+          style={{
+            width: 150,
+            height: 50,
+
+            border: "none",
+            outline: "1px solid darkgray",
+            borderRadius: 5,
+          }}
+        >
+          Start Again
+        </button>
+      </div>
     </>
   );
 };

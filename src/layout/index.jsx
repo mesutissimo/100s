@@ -1,12 +1,14 @@
 import React from "react";
-import GamePage from "../pages/game";
+import { Outlet } from "react-router-dom";
+
+const HEADER_HEIGHT = 50;
 
 const Layout = () => {
   return (
     <div className="App" style={{ display: "flex", flexDirection: "column" }}>
       <header
         style={{
-          height: 50,
+          height: HEADER_HEIGHT,
           alignContent: "center",
           backgroundColor: "darkgray",
           display: "flex",
@@ -30,7 +32,22 @@ const Layout = () => {
           ></i>
         </button>
       </header>
-      <GamePage />
+      <div
+        style={{
+          backgroundColor: "lightgray",
+          position: "absolute",
+          top: HEADER_HEIGHT,
+          bottom: 0,
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          overflowY: "scroll",
+        }}
+      >
+        <Outlet />
+      </div>
     </div>
   );
 };
