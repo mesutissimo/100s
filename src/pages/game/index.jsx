@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ScoreComponent from "../../components/Score";
 import Grid from "../../Grid";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { connect } from "react-redux";
 
-const GamePage = () => {
+const mapStateToProps = ({ active_session }) => ({ active_session });
+
+const GamePage = ({ active_session }) => {
+  console.log(active_session);
   const navigate = useNavigate();
+  const { sessionId } = useParams();
+
+  useEffect(() => {
+    console.log(sessionId);
+  }, [sessionId]);
+
   return (
     <>
       <ScoreComponent />
@@ -37,4 +47,4 @@ const GamePage = () => {
   );
 };
 
-export default GamePage;
+export default connect(mapStateToProps)(GamePage);

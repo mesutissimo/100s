@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "./firebase/firebaseApp";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -12,9 +13,9 @@ import reduxSaga from "redux-saga";
 const sagaMiddleWare = reduxSaga();
 
 const store = configureStore({
-	reducer: reducers(),
-	middleware: () => [sagaMiddleWare],
-	devTools: process.env.NODE_ENV !== "production",
+  reducer: reducers(),
+  middleware: () => [sagaMiddleWare],
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 sagaMiddleWare.run(sagas);
@@ -22,11 +23,11 @@ sagaMiddleWare.run(sagas);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<App />
-		</Provider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./layout";
+import LobbyPage from "./pages/lobby";
 
 const HomePage = React.lazy(() => import("./pages/home"));
 const GamePage = React.lazy(() => import("./pages/game"));
@@ -19,10 +20,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "game",
+        path: "game/:sessionId",
         element: (
           <React.Suspense>
             <GamePage />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "lobby",
+        element: (
+          <React.Suspense>
+            <LobbyPage />
           </React.Suspense>
         ),
       },
