@@ -1,9 +1,15 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { firestore } from "../../firebase/firebaseApp";
+import { firestore } from "../firebase/firebaseApp";
+import { store } from "..";
 
 const loginUser = async (email) => {
   const user = await checkUser(email);
   if (user) {
+    localStorage.setItem("user", user.id);
+    store.dispatch({
+      type: "user/SET_STATE",
+      payload: { id: user.id, email: user.id },
+    });
     return user;
   } else {
     const success = await createUser(email);
@@ -12,8 +18,8 @@ const loginUser = async (email) => {
     }
   }
 };
+
 const createUser = async (email) => {
-  console.log("Creating user: ", email);
   try {
     await setDoc(doc(firestore, "users", email), {
       username: email,
@@ -24,15 +30,15 @@ const createUser = async (email) => {
     return false;
   }
 };
+
 const checkUser = async (email) => {
   const docRef = doc(firestore, "users", email);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    const user = docSnap.data();
+    const user = { id: docSnap.id, ...docSnap.data() };
     return user;
   } else {
-    console.log("No such document!");
     return false;
   }
 };

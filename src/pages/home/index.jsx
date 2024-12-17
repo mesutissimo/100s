@@ -1,7 +1,8 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import React from "react";
-import { loginUser } from "../../redux/services/user";
+import { loginUser } from "../../services/user";
 import { useNavigate } from "react-router-dom";
+import { createSession } from "../../services/game_sessions";
 
 const Home = () => {
   const [form] = Form.useForm();
@@ -12,7 +13,14 @@ const Home = () => {
       .then(async (values) => {
         const user = await loginUser(values.email);
         if (user) {
-          navigate(join ? "/lobby" : "/game");
+          if (!join) {
+            const sessionID = await createSession();
+            if (sessionID) {
+              navigate("/game/" + sessionID);
+              return;
+            }
+          }
+          navigate("/lobby");
         }
       })
       .catch((e) => console.log(e));

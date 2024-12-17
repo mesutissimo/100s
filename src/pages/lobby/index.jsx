@@ -4,10 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { Button, List } from "antd";
 import {
   getActiveGameSessions,
+  joinToSession,
   updateSession,
-} from "../../redux/services/game_sessions";
+} from "../../services/game_sessions";
+import { connect } from "react-redux";
 
-const LobbyPage = () => {
+const mapStateToProps = ({ user }) => ({ user });
+const LobbyPage = ({ user }) => {
+  console.log(user);
   const navigate = useNavigate();
   const [sessions, setSessions] = useState([]);
 
@@ -20,8 +24,10 @@ const LobbyPage = () => {
   }, []);
 
   const handleJoin = (sessionId) => {
-    updateSession(sessionId, { status: "playing" });
-    // navigate("/game/" + sessionId);
+    joinToSession(sessionId, {
+      player: user.id,
+    });
+    navigate("/game/" + sessionId);
   };
 
   return (
@@ -37,4 +43,4 @@ const LobbyPage = () => {
   );
 };
 
-export default LobbyPage;
+export default connect(mapStateToProps)(LobbyPage);

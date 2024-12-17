@@ -1,7 +1,7 @@
 import actions from "./actions";
 
 const initialState = {
-  id: 0,
+  id: null,
   email: null,
 };
 

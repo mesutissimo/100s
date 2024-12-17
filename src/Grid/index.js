@@ -2,6 +2,7 @@ import style from "./style.module.css";
 import { createGrid } from "./utilities";
 import { calculateAvailability, saveLastGame } from "../gameplay";
 import { connect } from "react-redux";
+import { makeMove as move, setAvailableMoves } from "../services/gameplay";
 
 const buttonStyle = {
   height: 40,
@@ -10,17 +11,28 @@ const buttonStyle = {
   borderRadius: 5,
   textAlign: "center",
 };
-const mapStateToProps = ({ gameplay, settings }) => ({ gameplay, settings });
+const mapStateToProps = ({ active_session, settings, user }) => ({
+  active_session,
+  settings,
+  user,
+});
 
-const Grid = ({ gameplay: { moves, available }, settings, dispatch }) => {
+const Grid = ({ active_session, settings, user, dispatch }) => {
+  const { sessionId, moves, available } = active_session;
+  console.log({ moves });
+
+  /*   const moves =
+    active_session?.parties[active_session.turn || user.id].moves || [];
+  const available =
+    active_session?.parties[active_session.turn || user.id].available || []; */
+
   const isGameOver = moves.length > 0 && available.length === 0;
 
   const grid = createGrid();
 
-  const setAvailableButtons = (id) => {
+  const setAvailableButtons = (id, moves) => {
     const available = calculateAvailability(id, moves);
-
-    dispatch({ type: "gameplay/SET_STATE", payload: { available } });
+    setAvailableMoves(user.id, sessionId, available);
   };
 
   const resetGame = () => {
@@ -30,8 +42,7 @@ const Grid = ({ gameplay: { moves, available }, settings, dispatch }) => {
     });
 
     dispatch({
-      type: "gameplay/SET_STATE",
-      payload: { available: [], moves: [] },
+      type: "gameplay/RESET_GAME",
     });
   };
 
@@ -44,24 +55,18 @@ const Grid = ({ gameplay: { moves, available }, settings, dispatch }) => {
   };
 
   const makeMove = (key) => {
+    console.log(sessionId);
     if (moves.length === 0) {
-      dispatch({
-        type: "gameplay/SET_STATE",
-        payload: { moves: [...moves, key] },
-      });
-
-      setAvailableButtons(key);
+      move(user.id, sessionId, key);
+      setAvailableButtons(key, [...moves, key]);
     } else {
       if (available.includes(key) && !moves.includes(key)) {
-        dispatch({
-          type: "gameplay/SET_STATE",
-          payload: { moves: [...moves, key] },
-        });
-        setAvailableButtons(key);
+        const newMoves = [...moves, key];
+        move(user.id, sessionId, key);
+        setAvailableButtons(key, newMoves);
       }
     }
   };
-
   return (
     <div style={{ display: "inline-block" }}>
       {isGameOver && "GAME OVER"}
@@ -98,7 +103,7 @@ const Grid = ({ gameplay: { moves, available }, settings, dispatch }) => {
           ))}
         </tbody>
       </table>
-      {isGameOver && <button onClick={resetGame}>Play Again</button>}
+      {<button onClick={resetGame}>Play Again</button>}
     </div>
   );
 };
