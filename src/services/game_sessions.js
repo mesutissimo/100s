@@ -61,7 +61,7 @@ export const createSession = async () => {
 };
 
 export const getGameSession = (id) => {
-  const unsub = onSnapshot(
+  onSnapshot(
     doc(firestore, "sessions", id),
     { includeMetadataChanges: true },
     (doc) => {

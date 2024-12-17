@@ -1,8 +1,9 @@
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Card, Col, Form, Input, Row } from "antd";
 import React from "react";
 import { loginUser } from "../../services/user";
 import { useNavigate } from "react-router-dom";
 import { createSession } from "../../services/game_sessions";
+import style from "../../assets/style.module.scss";
 
 const Home = () => {
   const [form] = Form.useForm();
@@ -26,28 +27,56 @@ const Home = () => {
       .catch((e) => console.log(e));
   };
   return (
-    <Row gutter={[32, 32]} style={{ textAlign: "center" }}>
+    <Row gutter={[16, 16]} style={{ textAlign: "center", marginBottom: 200 }}>
       <Form form={form}>
         <Col span={24}>
-          <h4>Epostanı gir</h4>
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "Geçerli bir e-posta gerekli",
-                type: "email",
-              },
-            ]}
-          >
-            <Input placeholder="abc@test.com" />
-          </Form.Item>
+          <h1 style={{ fontSize: "6em" }}>100s</h1>
         </Col>
-        <Col span={12}>
-          <Button onClick={() => handleNewGame()}>Yeni Oyun</Button>
-        </Col>
-        <Col span={12}>
-          <Button onClick={() => handleNewGame(true)}>Oyuna Katıl</Button>
+        <Col span={24}>
+          <Card style={{ margin: "1em", border: "2px solid gray" }}>
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Geçerli bir e-posta gerekli",
+                      type: "email",
+                    },
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="abc@test.com"
+                    style={{
+                      fontSize: "2em",
+                      border: "2px solid gray",
+                      fontWeight: "bold",
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12} style={{ alignItems: "center" }}>
+                <button
+                  className={style.greenBtn}
+                  onClick={() => handleNewGame()}
+                >
+                  NEW GAME
+                </button>
+              </Col>
+              <Col span={12} style={{ alignItems: "center" }}>
+                <button
+                  className={style.yellowBtn}
+                  size="large"
+                  type="default"
+                  onClick={() => handleNewGame(true)}
+                >
+                  JOIN
+                </button>
+              </Col>
+            </Row>
+          </Card>
         </Col>
       </Form>
     </Row>

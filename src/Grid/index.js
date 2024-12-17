@@ -19,7 +19,6 @@ const mapStateToProps = ({ active_session, settings, user }) => ({
 
 const Grid = ({ active_session, settings, user, dispatch }) => {
   const { sessionId, moves, available } = active_session;
-  console.log({ moves });
 
   /*   const moves =
     active_session?.parties[active_session.turn || user.id].moves || [];
@@ -55,7 +54,6 @@ const Grid = ({ active_session, settings, user, dispatch }) => {
   };
 
   const makeMove = (key) => {
-    console.log(sessionId);
     if (moves.length === 0) {
       move(user.id, sessionId, key);
       setAvailableButtons(key, [...moves, key]);

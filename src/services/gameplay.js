@@ -1,9 +1,7 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebaseApp";
 import { opponentData } from "./utilites";
-import { store } from "..";
 import { DEFAULT_PARTY_DATA } from "../defaults/session";
-import { update } from "firebase/database";
 
 export const makeMove = async (player, sessionId, move) => {
   console.log("===MOve");
