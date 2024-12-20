@@ -60,45 +60,41 @@ const Grid = ({ active_session, settings, user, dispatch }) => {
     }
   };
   return (
-    <div style={{ display: "inline-block" }}>
-      {isGameOver && "GAME OVER"}
-      <table>
-        <tbody>
-          {grid.map((row, i) => (
-            <tr key={"r" + i} style={{ minHeight: 40 }}>
-              {row.map((key) => (
-                <td
-                  key={key}
-                  style={{
-                    width: 40,
-                    height: 40,
-                  }}
-                >
-                  {moves.includes(key) ? (
-                    moves.findIndex((move) => move === key) + 1
-                  ) : (
-                    <button
-                      id={key}
-                      className={style.buttonStyle}
-                      onClick={() => makeMove(key)}
-                      style={{
-                        ...buttonStyle,
-                        ...onHoverStyles(key),
-                        display: moves.includes(key) ? "none" : undefined,
-                      }}
-                      disabled={
-                        moves.includes(key) || active_session.turn !== user.id
-                      }
-                    />
-                  )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* {<button onClick={resetGame}>Play Again</button>} */}
-    </div>
+    <table style={{ textAlign: "center" }}>
+      <tbody>
+        {grid.map((row, i) => (
+          <tr key={"r" + i} style={{ minHeight: 40 }}>
+            {row.map((key) => (
+              <td
+                key={key}
+                style={{
+                  width: 40,
+                  height: 40,
+                }}
+              >
+                {moves.includes(key) ? (
+                  moves.findIndex((move) => move === key) + 1
+                ) : (
+                  <button
+                    id={key}
+                    className={style.buttonStyle}
+                    onClick={() => makeMove(key)}
+                    style={{
+                      ...buttonStyle,
+                      ...onHoverStyles(key),
+                      display: moves.includes(key) ? "none" : undefined,
+                    }}
+                    disabled={
+                      moves.includes(key) || active_session.turn !== user.id
+                    }
+                  />
+                )}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

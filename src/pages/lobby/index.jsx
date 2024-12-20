@@ -33,7 +33,11 @@ const LobbyPage = ({ user }) => {
       <Divider />
       <Col
         span={24}
-        style={{ width: "100%", height: "80vh", overflowY: "scroll" }}
+        style={{
+          width: "100%",
+          height: "80vh",
+          overflowY: "scroll",
+        }}
       >
         <List
           dataSource={sessions}

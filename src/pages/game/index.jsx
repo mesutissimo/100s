@@ -59,7 +59,7 @@ const GamePage = ({ active_session, user, dispatch }) => {
         <Col span={24}>
           <Score score={25} />
         </Col>
-        <Col span={24}>
+        <Col span={24} style={{ display: "flex", justifyContent: "center" }}>
           <Grid />
         </Col>
         <Col span={24}>
