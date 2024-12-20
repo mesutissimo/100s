@@ -35,13 +35,13 @@ const Home = ({ user }) => {
   }, [user]);
 
   return (
-    <Row gutter={[16, 16]} style={{ textAlign: "center", marginBottom: 200 }}>
-      <Form form={form}>
-        <Col span={24}>
-          <h1 style={{ fontSize: "6em" }}>100s</h1>
-        </Col>
-        <Col span={24}>
-          <Card style={{ margin: "1em", border: "2px solid gray" }}>
+    <Row gutter={[0, 0]} style={{ textAlign: "center", padding: 10 }}>
+      <Col span={24}>
+        <h1 style={{ fontSize: "6em" }}>100s</h1>
+      </Col>
+      <Col span={24}>
+        <Card style={{ border: "2px solid gray", padding: 5 }}>
+          <Form form={form}>
             <Row gutter={[16, 16]}>
               {!user.id && (
                 <Col span={24}>
@@ -50,7 +50,7 @@ const Home = ({ user }) => {
                     rules={[
                       {
                         required: true,
-                        message: "Geçerli bir e-posta gerekli",
+                        message: "Please enter a valid email",
                         type: "email",
                       },
                     ]}
@@ -87,9 +87,9 @@ const Home = ({ user }) => {
                 </button>
               </Col>
             </Row>
-          </Card>
-        </Col>
-      </Form>
+          </Form>
+        </Card>
+      </Col>
     </Row>
   );
 };

@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 
-import Grid from "../../Grid";
+import Grid from "../../components/Grid";
 import { useNavigate, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { Col, Modal, Row } from "antd";
-import { opponentData } from "../../services/utilites";
+
 import style from "../../assets/style.module.scss";
 import OpponentNameWidget from "../../components/NameWidget/Opponent";
 import HomeNameWidget from "../../components/NameWidget/Home";
 import Score from "../../components/Score";
+import { deleteSession } from "../../services/session";
+import { act } from "react";
 
 const mapStateToProps = ({ active_session, user }) => ({
   active_session,
@@ -18,8 +20,6 @@ const mapStateToProps = ({ active_session, user }) => ({
 const GamePage = ({ active_session, user, dispatch }) => {
   const navigate = useNavigate();
   const { sessionId } = useParams();
-  const opponent = opponentData(user.id, active_session);
-  // const [modal, contextHolder] = Modal.useModal();
 
   useEffect(() => {
     dispatch({
@@ -30,11 +30,12 @@ const GamePage = ({ active_session, user, dispatch }) => {
 
   const handleCloseSession = () => {
     navigate("/");
+
+    deleteSession(active_session.sessionId);
   };
 
   return (
     <>
-      {/* {contextHolder} */}
       <Modal
         centered
         style={{ textAlign: "center" }}
@@ -48,7 +49,7 @@ const GamePage = ({ active_session, user, dispatch }) => {
           style={{ width: "50%" }}
           onClick={handleCloseSession}
         >
-          İPTAL
+          CANCEL
         </button>
       </Modal>
       <Row>

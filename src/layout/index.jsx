@@ -1,14 +1,15 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-
-const HEADER_HEIGHT = 0;
+import Header from "./Header";
+const HEADER_HEIGHT = 50;
 
 const Layout = () => {
   return (
     <div className="App" style={{ display: "flex", flexDirection: "column" }}>
+      <Header />
       <div
         style={{
-          backgroundColor: "lightgray",
+          backgroundColor: "darkgray",
           position: "absolute",
           top: HEADER_HEIGHT,
           bottom: 0,

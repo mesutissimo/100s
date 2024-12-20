@@ -1,8 +1,8 @@
 import style from "./style.module.css";
 import { createGrid } from "./utilities";
-import { calculateAvailability, saveLastGame } from "../gameplay";
+import { calculateAvailability, saveLastGame } from "../../gameplay";
 import { connect } from "react-redux";
-import { makeMove as move, setAvailableMoves } from "../services/gameplay";
+import { makeMove as move, setAvailableMoves } from "../../services/gameplay";
 
 const buttonStyle = {
   height: 40,
@@ -19,12 +19,6 @@ const mapStateToProps = ({ active_session, settings, user }) => ({
 
 const Grid = ({ active_session, settings, user, dispatch }) => {
   const { sessionId, moves, available } = active_session;
-
-  /*   const moves =
-    active_session?.parties[active_session.turn || user.id].moves || [];
-  const available =
-    active_session?.parties[active_session.turn || user.id].available || []; */
-
   const isGameOver = moves.length > 0 && available.length === 0;
 
   const grid = createGrid();

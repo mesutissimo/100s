@@ -18,6 +18,12 @@ const loginUser = async (email) => {
     }
   }
 };
+const logoutUser = async () => {
+  localStorage.removeItem("user");
+  store.dispatch({
+    type: "user/RESET",
+  });
+};
 
 const createUser = async (email) => {
   try {
@@ -43,4 +49,4 @@ const checkUser = async (email) => {
   }
 };
 
-export { loginUser, createUser, checkUser };
+export { loginUser, logoutUser, createUser, checkUser };

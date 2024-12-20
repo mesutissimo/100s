@@ -16,7 +16,7 @@ const OpponentNameWidget = ({ user, active_session }) => {
         {opponent && opponent.charAt(0).toLocaleUpperCase()}
       </Col>
       <Col flex="auto" className={style.opponentName}>
-        {opponent || "Düşman"}
+        {opponent || "Opponent waiting"}
       </Col>
     </Row>
   );

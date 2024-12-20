@@ -33,8 +33,9 @@ export const updateSession = async (id, data) => {
   await updateDoc(sessionRef, data);
 };
 
-export const deleteSession = async (sessionId) => {
-  await deleteDoc(doc(firestore, "sessions", sessionId));
+export const deleteSession = async (id) => {
+  const sessionRef = doc(firestore, "sessions", id);
+  await deleteDoc(sessionRef);
 };
 export const joinToSession = async (id, { player }) => {
   const sessionRef = doc(firestore, "sessions", id);
