@@ -1,19 +1,22 @@
 import { Button, Card, Col, Form, Input, Row } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { loginUser } from "../../services/user";
 import { useNavigate } from "react-router-dom";
-import { createSession } from "../../services/game_sessions";
+import { createSession } from "../../services/session";
 import style from "../../assets/style.module.scss";
+import { connect } from "react-redux";
 
-const Home = () => {
+const mapStateToProps = ({ user }) => ({ user });
+
+const Home = ({ user }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const handleNewGame = (join = false) => {
     form
       .validateFields()
       .then(async (values) => {
-        const user = await loginUser(values.email);
-        if (user) {
+        const _user = await loginUser(user.id ? user.email : values.email);
+        if (_user) {
           if (!join) {
             const sessionID = await createSession();
             if (sessionID) {
@@ -26,6 +29,11 @@ const Home = () => {
       })
       .catch((e) => console.log(e));
   };
+  useEffect(() => {
+    if (user.id || user.email) {
+    }
+  }, [user]);
+
   return (
     <Row gutter={[16, 16]} style={{ textAlign: "center", marginBottom: 200 }}>
       <Form form={form}>
@@ -35,28 +43,31 @@ const Home = () => {
         <Col span={24}>
           <Card style={{ margin: "1em", border: "2px solid gray" }}>
             <Row gutter={[16, 16]}>
-              <Col span={24}>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Geçerli bir e-posta gerekli",
-                      type: "email",
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="abc@test.com"
-                    style={{
-                      fontSize: "2em",
-                      border: "2px solid gray",
-                      fontWeight: "bold",
-                    }}
-                  />
-                </Form.Item>
-              </Col>
+              {!user.id && (
+                <Col span={24}>
+                  <Form.Item
+                    name="email"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Geçerli bir e-posta gerekli",
+                        type: "email",
+                      },
+                    ]}
+                  >
+                    <Input
+                      size="large"
+                      placeholder="abc@test.com"
+                      style={{
+                        fontSize: "2em",
+                        border: "2px solid gray",
+                        fontWeight: "bold",
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+              )}
+
               <Col span={12} style={{ alignItems: "center" }}>
                 <button
                   className={style.greenBtn}
@@ -83,4 +94,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default connect(mapStateToProps)(Home);

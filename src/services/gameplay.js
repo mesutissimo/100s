@@ -4,7 +4,6 @@ import { opponentData } from "./utilites";
 import { DEFAULT_PARTY_DATA } from "../defaults/session";
 
 export const makeMove = async (player, sessionId, move) => {
-  console.log("===MOve");
   const sessionRef = doc(firestore, "sessions", sessionId);
   const docSnap = await getDoc(sessionRef);
 
@@ -12,7 +11,6 @@ export const makeMove = async (player, sessionId, move) => {
     const session = { id: docSnap.id, ...docSnap.data() };
     const opponent = opponentData(player, session);
     session.turn = opponent;
-    console.log(session.moves);
     await updateDoc(sessionRef, {
       moves: [...session.moves, move],
       turn: opponent,
@@ -37,6 +35,5 @@ export const resetGame = async (session, currentPlayer) => {
       [opponent]: DEFAULT_PARTY_DATA,
     },
   };
-  console.log(data);
   await setDoc(sessionRef, data, { merge: true });
 };

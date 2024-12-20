@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   onSnapshot,
@@ -30,6 +31,10 @@ export const getActiveGameSessions = async () => {
 export const updateSession = async (id, data) => {
   const sessionRef = doc(firestore, "sessions", id);
   await updateDoc(sessionRef, data);
+};
+
+export const deleteSession = async (sessionId) => {
+  await deleteDoc(doc(firestore, "sessions", sessionId));
 };
 export const joinToSession = async (id, { player }) => {
   const sessionRef = doc(firestore, "sessions", id);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import Grid from "../../Grid";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import { Col, Modal, Row } from "antd";
 import { opponentData } from "../../services/utilites";
 import style from "../../assets/style.module.scss";
+import OpponentNameWidget from "../../components/NameWidget/Opponent";
+import HomeNameWidget from "../../components/NameWidget/Home";
+import Score from "../../components/Score";
 
 const mapStateToProps = ({ active_session, user }) => ({
   active_session,
@@ -16,7 +19,7 @@ const GamePage = ({ active_session, user, dispatch }) => {
   const navigate = useNavigate();
   const { sessionId } = useParams();
   const opponent = opponentData(user.id, active_session);
-  const [modal, contextHolder] = Modal.useModal();
+  // const [modal, contextHolder] = Modal.useModal();
 
   useEffect(() => {
     dispatch({
@@ -25,29 +28,13 @@ const GamePage = ({ active_session, user, dispatch }) => {
     });
   }, [sessionId]);
 
-  useEffect(() => {
-    if (active_session.waitingOpponent === false) {
-      modal.info({
-        content: opponentData(user.id, active_session),
-        centered: true,
-        footer: null,
-        icon: null,
-        closable: false,
-        styles: {
-          content: {
-            backgroundColor: "transparent",
-            border: 0,
-            boxShadow: "none",
-            color: "red",
-          },
-        },
-      });
-    }
-  }, [active_session.waitingOpponent]);
+  const handleCloseSession = () => {
+    navigate("/");
+  };
 
   return (
     <>
-      {contextHolder}
+      {/* {contextHolder} */}
       <Modal
         centered
         style={{ textAlign: "center" }}
@@ -59,21 +46,26 @@ const GamePage = ({ active_session, user, dispatch }) => {
         <button
           className={style.redBtn}
           style={{ width: "50%" }}
-          onClick={() => console.log()}
+          onClick={handleCloseSession}
         >
-          CANCEL
+          İPTAL
         </button>
       </Modal>
       <Row>
         <Col span={24}>
-          <h3>{opponent || "Düşman"}</h3>
+          <OpponentNameWidget />
+        </Col>
+        <Col span={24}>
+          <Score score={25} />
         </Col>
         <Col span={24}>
           <Grid />
         </Col>
         <Col span={24}>
-          <h3>{user.id || "Ben"}</h3>
-          {active_session.turn === user.id && "Sıra sende !"}
+          <Score score={23} />
+        </Col>
+        <Col span={24}>
+          <HomeNameWidget />
         </Col>
       </Row>
     </>

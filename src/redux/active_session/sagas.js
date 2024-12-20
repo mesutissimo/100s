@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import actions from "../active_session/actions";
-import { getGameSession } from "../../services/game_sessions";
+import { getGameSession } from "../../services/session";
 
 export function* GET_SESSION({ payload }) {
   const { id } = payload;

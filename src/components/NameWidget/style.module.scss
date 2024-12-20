@@ -1,0 +1,50 @@
+$name-background: #ededed;
+$home-initial-background: #009bfb;
+$opponent-initial-background: #fe8787;
+
+.homeName {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  padding: 2px;
+  font-size: 4.5cqw;
+  justify-content: space-around;
+  background-color: $name-background;
+  border-radius: 10px;
+  vertical-align: middle;
+  font-weight: bold;
+}
+.opponentName {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  padding: 2px;
+  font-size: 4.5cqw;
+  justify-content: space-around;
+  background-color: $name-background;
+  font-weight: bold;
+  border-radius: 10px;
+}
+.homeNameInitial {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  justify-content: space-around;
+  padding: 2px;
+  font-size: 3em;
+  text-align: center;
+  background-color: $home-initial-background;
+  border-radius: 10px;
+}
+.opponentNameInitial {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+
+  justify-content: space-around;
+  padding: 2px;
+  font-size: 3em;
+  text-align: center;
+  background-color: $opponent-initial-background;
+  border-radius: 10px;
+}

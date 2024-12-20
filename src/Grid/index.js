@@ -92,7 +92,9 @@ const Grid = ({ active_session, settings, user, dispatch }) => {
                         ...onHoverStyles(key),
                         display: moves.includes(key) ? "none" : undefined,
                       }}
-                      disabled={moves.includes(key)}
+                      disabled={
+                        moves.includes(key) || active_session.turn !== user.id
+                      }
                     />
                   )}
                 </td>
@@ -101,7 +103,7 @@ const Grid = ({ active_session, settings, user, dispatch }) => {
           ))}
         </tbody>
       </table>
-      {<button onClick={resetGame}>Play Again</button>}
+      {/* {<button onClick={resetGame}>Play Again</button>} */}
     </div>
   );
 };

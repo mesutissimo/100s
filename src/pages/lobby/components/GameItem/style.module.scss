@@ -1,0 +1,22 @@
+$name-background: #ededed;
+
+.gameSessionName {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  font-size: 4.5cqw;
+  justify-content: space-around;
+  background-color: $name-background;
+  border-radius: 10px;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.joinButton {
+  margin-left: 10px;
+  display: flex;
+  font-size: 1.5em;
+  color: white;
+  font-weight: bolder;
+  background-color: #e9ad54;
+}

@@ -1,19 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Col, Row } from "antd";
+import style from "./style.module.scss";
 
-const mapStateToProps = ({ active_session, settings }) => ({
+const mapStateToProps = ({ user, active_session }) => ({
+  user,
   active_session,
-  settings,
 });
 
-const ScoreComponent = ({ active_session: { moves }, settings, dispatch }) => {
+const Score = ({ score = 123 }) => {
   return (
-    <div style={{ padding: 15, backgroundColor: "lightgray" }}>
-      <h1 style={{ margin: 0, textAlign: "right", fontFamily: "monospace" }}>
-        Score: {moves.length}
-      </h1>
-    </div>
+    <Row justify="center" style={{ padding: 10 }}>
+      <Col span={4} flex="auto" className={style.score}>
+        {score}
+      </Col>
+    </Row>
   );
 };
 
-export default connect(mapStateToProps)(ScoreComponent);
+export default connect(mapStateToProps)(Score);
