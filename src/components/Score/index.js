@@ -8,7 +8,7 @@ const mapStateToProps = ({ user, active_session }) => ({
   active_session,
 });
 
-const Score = ({ score = 123 }) => {
+const Score = ({ score = 0 }) => {
   return (
     <Row justify="center" style={{ padding: 10 }}>
       <Col span={4} flex="auto" className={style.score}>

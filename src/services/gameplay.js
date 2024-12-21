@@ -2,25 +2,21 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebaseApp";
 import { opponentData } from "./utilites";
 import { DEFAULT_PARTY_DATA } from "../defaults/session";
+import { calculateAvailability } from "../gameplay";
 
 export const makeMove = async (player, sessionId, move) => {
   const sessionRef = doc(firestore, "sessions", sessionId);
   const docSnap = await getDoc(sessionRef);
-
   if (docSnap.exists()) {
     const session = { id: docSnap.id, ...docSnap.data() };
     const opponent = opponentData(player, session);
     session.turn = opponent;
-    await updateDoc(sessionRef, {
-      moves: [...session.moves, move],
-      turn: opponent,
-    });
+    const available = calculateAvailability(move, session.moves);
+    session.moves = [...session.moves, move];
+    session.parties[player].moves.push(move);
+    session.available = available;
+    await updateDoc(sessionRef, session);
   }
-};
-
-export const setAvailableMoves = async (player, sessionId, available) => {
-  const sessionRef = doc(firestore, "sessions", sessionId);
-  await updateDoc(sessionRef, { available });
 };
 
 export const resetGame = async (session, currentPlayer) => {

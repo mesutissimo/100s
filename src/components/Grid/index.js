@@ -2,7 +2,9 @@ import style from "./style.module.css";
 import { createGrid } from "./utilities";
 import { calculateAvailability, saveLastGame } from "../../gameplay";
 import { connect } from "react-redux";
-import { makeMove as move, setAvailableMoves } from "../../services/gameplay";
+import { makeMove as move } from "../../services/gameplay";
+import { opponentData } from "../../services/utilites";
+import { act } from "react";
 
 const buttonStyle = {
   height: 40,
@@ -20,14 +22,8 @@ const mapStateToProps = ({ active_session, settings, user }) => ({
 const Grid = ({ active_session, settings, user, dispatch }) => {
   const { sessionId, moves, available } = active_session;
   const isGameOver = moves.length > 0 && available.length === 0;
-
+  const opponent = opponentData(user.id, active_session);
   const grid = createGrid();
-
-  const setAvailableButtons = (id, moves) => {
-    const available = calculateAvailability(id, moves);
-    setAvailableMoves(user.id, sessionId, available);
-  };
-
   const resetGame = () => {
     saveLastGame({
       moves,
@@ -50,14 +46,23 @@ const Grid = ({ active_session, settings, user, dispatch }) => {
   const makeMove = (key) => {
     if (moves.length === 0) {
       move(user.id, sessionId, key);
-      setAvailableButtons(key, [...moves, key]);
     } else {
       if (available.includes(key) && !moves.includes(key)) {
-        const newMoves = [...moves, key];
         move(user.id, sessionId, key);
-        setAvailableButtons(key, newMoves);
       }
     }
+  };
+
+  const getColor = (key) => {
+    if (!active_session.sessionId) return undefined;
+    let color = undefined;
+    if (active_session.parties[user.id].moves.includes(key)) {
+      color = "blue";
+    }
+    if (opponent && active_session.parties[opponent].moves.includes(key)) {
+      color = "red";
+    }
+    return color;
   };
   return (
     <table style={{ textAlign: "center" }}>
@@ -73,7 +78,18 @@ const Grid = ({ active_session, settings, user, dispatch }) => {
                 }}
               >
                 {moves.includes(key) ? (
-                  moves.findIndex((move) => move === key) + 1
+                  <button
+                    id={key}
+                    className={style.buttonStyle}
+                    onClick={() => makeMove(key)}
+                    style={{
+                      ...buttonStyle,
+                      backgroundColor: getColor(key),
+                    }}
+                    disabled={
+                      moves.includes(key) || active_session.turn !== user.id
+                    }
+                  />
                 ) : (
                   <button
                     id={key}

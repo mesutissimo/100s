@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   query,
@@ -13,6 +14,7 @@ import {
 import { firestore } from "../firebase/firebaseApp";
 import { store } from "..";
 import { DEFAULT_PARTY_DATA, DEFAULT_SESSION_DATA } from "../defaults/session";
+import { opponentData } from "./utilites";
 
 export const getActiveGameSessions = async () => {
   const q = query(
@@ -39,12 +41,19 @@ export const deleteSession = async (id) => {
 };
 export const joinToSession = async (id, { player }) => {
   const sessionRef = doc(firestore, "sessions", id);
-  const data = {
-    waitingOpponent: false,
-    parties: { [player]: DEFAULT_PARTY_DATA },
-    turn: Math.round(Math.random()) === 1 ? player : null,
-  };
-  await setDoc(sessionRef, data, { merge: true });
+  const docSnap = await getDoc(sessionRef);
+  if (docSnap.exists()) {
+    const session = docSnap.data();
+    const data = {
+      waitingOpponent: false,
+      parties: { [player]: DEFAULT_PARTY_DATA },
+      turn:
+        Math.floor(Math.random() * 2) === 1
+          ? player
+          : opponentData(player, session),
+    };
+    await setDoc(sessionRef, data, { merge: true });
+  }
 };
 
 export const createSession = async () => {
